@@ -1,7 +1,100 @@
-# API
+## Introduction
 
-우리는 스냅 뿐만 아니라 api 제공을 통해 다른 서비스에서도 안전하게 컨트랙을 사용할 수 있도록 제공합니다.
+### English
 
-### API Reference
+Our platform not only introduces AI Guard Snap, an innovative tool that leverages artificial intelligence to analyze smart contract codes, but we also expand our capabilities through our Public API service.
 
-체인, contract address, call data 넣으면 되도록 만들기
+Various wallet services and platforms of different natures can integrate this functionality via API calls, enabling them to check the safety of smart contracts and explain their terms to the average user as needed.
+
+Through this, we aim to lower the entry barriers for Web3 beginners across a multitude of environments.
+
+### Korean
+
+우리 플랫폼은 인공지능을 활용하여 스마트 컨트랙트 코드를 분석하는 AI Guard Snap를 소개할 뿐만 아니라 Public API 서비스를 통해 우리의 기능을 확장합니다.
+
+여러 Wallet 서비스 및 다른 성격의 플랫폼은 API Call을 통해 필요에 따라 스마트 컨트랙트가 안전성을 체크하고 일반 유저에게 해당 컨트랙트를 설명해주는 이 기능을 인테그레이션 시킬 수 있습니다.
+
+이를 통해, Web3 비기너들의 진입 장벽을 낮추는 환경을 다양한 곳에서 조성하고자 합니다.
+
+### [Swagger](http://localhost:3000/swagger)
+
+![API Swagger Image](/swagger.png)
+
+---
+
+## API Reference
+
+### Request body
+
+**POST** `http://api.guard.ai/message`
+
+- `chainId` (string) - **Required**  
+  The unique identifier for the blockchain network.
+
+- `data` (object) - **Required**  
+  The data object containing details about the transaction.
+  - `method` (string) - **Required**  
+    The blockchain method being called, such as `eth_sendTransaction`.
+  - `params` (array) - **Required**  
+    An array of objects containing transaction parameters.
+    - `from` (string) - **Required**  
+      The address of the account sending the transaction.
+    - `to` (string) - **Required**  
+      The recipient address of the transaction.
+
+### Example Call By Nodejs
+
+```js
+const axios = require('axios');
+
+const callData = {
+  chainId: '1261120',
+  data: {
+    method: 'eth_sendTransaction',
+    params: [
+      {
+        from: '0xb0b9c5F027A59409579A6a9139c4E9BB29De5A4b',
+        to: '0xdC0e4E9C1BF3Aa88Cd9BE32186a741cd893C78cA',
+        value: 1000000000000,
+        gasLimit: '0x5028',
+        maxPriorityFeePerGas: '0x3b9aca00',
+        maxFeePerGas: '0x2540be400',
+      },
+    ],
+  },
+};
+
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const result = await axiosInstance.post('/message', callData);
+```
+
+### Example Call By Curl
+
+```bash
+curl -X 'POST' \
+  'https://faucet-mintstation.cosmostation.io/message' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "chainId": "1261120",
+  "data": {
+    "method": "eth_sendTransaction",
+    "params": [
+      {
+        "from": "0xb0b9c5F027A59409579A6a9139c4E9BB29De5A4b",
+        "to": "0xdC0e4E9C1BF3Aa88Cd9BE32186a741cd893C78cA",
+        "value": 1000000000000,
+        "gasLimit": "0x5028",
+        "maxPriorityFeePerGas": "0x3b9aca00",
+        "maxFeePerGas": "0x2540be400"
+      }
+    ]
+  }
+}'
+```
