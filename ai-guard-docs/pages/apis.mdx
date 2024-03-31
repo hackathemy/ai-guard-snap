@@ -16,7 +16,9 @@ Through this, we aim to lower the entry barriers for Web3 beginners across a mul
 
 이를 통해, Web3 비기너들의 진입 장벽을 낮추는 환경을 다양한 곳에서 조성하고자 합니다.
 
-### [Swagger](http://localhost:3000/swagger)
+---
+
+## [Swagger](http://localhost:3000/swagger)
 
 ![API Swagger Image](/swagger.png)
 
@@ -24,9 +26,13 @@ Through this, we aim to lower the entry barriers for Web3 beginners across a mul
 
 ## API Reference
 
-### Request body
+### Send message
+
+**Send message for about smart contract security and explanation via chatgpt assistant api**
 
 **POST** `http://api.guard.ai/message`
+
+**Request body**
 
 - `chainId` (string) - **Required**  
   The unique identifier for the blockchain network.
@@ -41,6 +47,16 @@ Through this, we aim to lower the entry barriers for Web3 beginners across a mul
       The address of the account sending the transaction.
     - `to` (string) - **Required**  
       The recipient address of the transaction.
+
+### Create Custom Assistant
+
+**Create a new custom assistant ai for custom response json object format which deponeds on each own platform services**
+
+**POST** `http://api.guard.ai/create-custom-assistant`
+
+- not supported yet
+
+---
 
 ### Example Call By Nodejs
 

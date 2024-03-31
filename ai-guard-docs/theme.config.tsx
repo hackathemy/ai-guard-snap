@@ -1,14 +1,14 @@
-import { DocsThemeConfig } from "nextra-theme-docs";
-import React from "react";
+import { DocsThemeConfig } from 'nextra-theme-docs';
+import React from 'react';
 
 const config: DocsThemeConfig = {
-  logo: <span>Gameboy 🎮</span>,
+  logo: <span>AI Guard 🎮</span>,
   project: {
-    link: "https://github.com/soaryong/gameboy",
+    link: 'https://github.com/soaryong/gameboy',
   },
-  docsRepositoryBase: "https://gameboy-docs.web-app",
+  docsRepositoryBase: 'https://gameboy-docs.web-app',
   footer: {
-    text: "Gameboy",
+    text: 'Gameboy',
   },
 };
 

@@ -1,4 +1,4 @@
-# Nextra Docs Template 
+# Nextra Docs Template
 
 This is a template for creating documentation with [Nextra](https://nextra.site).
 
@@ -14,7 +14,8 @@ Click the button to clone this repository and deploy it on Vercel:
 
 ## Local Development
 
-First, run `pnpm i` to install the dependencies.
+First, run `pnpm i` to in
+stall the dependencies.
 
 Then, run `pnpm dev` to start the development server and visit localhost:3000.
 
