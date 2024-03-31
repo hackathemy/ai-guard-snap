@@ -2,7 +2,6 @@ import {
   Card,
   ConnectButton,
   InstallFlaskButton,
-  ReconnectButton,
   SendHelloButton,
 } from '../components';
 import { isLocalSnap, shouldDisplayReconnectButton } from '../utils';
@@ -57,29 +56,9 @@ const CardContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 64.8rem;
-  width: 100%;
+  width: 95%;
   height: 100%;
   margin-top: 1.5rem;
-`;
-
-const Notice = styled.div`
-  background-color: ${({ theme }) => theme.colors.background?.alternative};
-  border: 1px solid ${({ theme }) => theme.colors.border?.default};
-  color: ${({ theme }) => theme.colors.text?.alternative};
-  border-radius: ${({ theme }) => theme.radii.default};
-  padding: 2.4rem;
-  margin-top: 2.4rem;
-  max-width: 60rem;
-  width: 100%;
-
-  & > * {
-    margin: 0;
-  }
-  ${({ theme }) => theme.mediaQueries.small} {
-    margin-top: 1.2rem;
-    padding: 1.6rem;
-  }
 `;
 
 const ErrorMessage = styled.div`
@@ -110,50 +89,38 @@ const Index = () => {
     ? isFlask
     : snapsDetected;
 
-  const requestWithAIGuard = async (callData: any) => {
+  const requestWithAIGuard = async (data: any) => {
+    console.log(data);
     const verified = await invokeSnap({
       method: 'ai-guard',
-      // params: { data: callData, chainId: window.ethereum.chainId },
-      params: { data: callData, chainId: '1261120' },
+      params: data,
     });
     if (verified) {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
       if (accounts) {
-        await window.ethereum.request(callData);
+        await window.ethereum.request(data.data);
       }
     }
   };
 
-  const handleSafeContractClick = async () => {
+  const handleCallContractClick = async (
+    chain: string,
+    contractAddress: string,
+  ) => {
     const callData = {
       method: 'eth_sendTransaction',
       params: [
         {
-          to: '0xdC0e4E9C1BF3Aa88Cd9BE32186a741cd893C78cA',
+          to: contractAddress,
           from: '0xb0b9c5F027A59409579A6a9139c4E9BB29De5A4b',
           gas: '0x5028',
           value: '0x3b9aca00',
         },
       ],
     };
-    await requestWithAIGuard(callData);
-  };
-
-  const handleHackedContractClick = async () => {
-    const callData = {
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          to: '0xdC0e4E9C1BF3Aa88Cd9BE32186a741cd893C78cA',
-          from: '0xb0b9c5F027A59409579A6a9139c4E9BB29De5A4b',
-          gas: '0x5028',
-          value: '0x3b9aca00',
-        },
-      ],
-    };
-    await requestWithAIGuard(callData);
+    await requestWithAIGuard({ chainId: chain, data: callData });
   };
 
   return (
@@ -197,11 +164,16 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Base ERC20',
-            description: 'Call Base ERC20 Contract',
+            title: 'Astar zkEVM 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
             button: (
               <SendHelloButton
-                onClick={handleSafeContractClick}
+                onClick={async () =>
+                  handleCallContractClick(
+                    '1261120',
+                    '0x211827624c627d228660A07e55ABCe931485dBAB',
+                  )
+                }
                 disabled={!installedSnap}
               />
             ),
@@ -215,11 +187,180 @@ const Index = () => {
         />
         <Card
           content={{
-            title: 'Hacked ERC20',
-            description: 'Call Harmful ERC20 Contract',
+            title: 'Astar zkEVM 🔴 ERC20',
+            description: 'Danger ERC20 Contract',
             button: (
               <SendHelloButton
-                onClick={handleHackedContractClick}
+                onClick={async () =>
+                  handleCallContractClick(
+                    '1261120',
+                    '0xdC0e4E9C1BF3Aa88Cd9BE32186a741cd893C78cA',
+                  )
+                }
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'NEON 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () =>
+                  handleCallContractClick(
+                    '245022926',
+                    '0x89740b73594D505A7c4d4238703769bF40448F7A',
+                  )
+                }
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'NEON 🔴 ERC20',
+            description: 'Danger ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () =>
+                  handleCallContractClick(
+                    '245022926',
+                    '0xC8f2F44a2214b204C2eD4DDfEfe685148A9aB211',
+                  )
+                }
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'INJECTIVE inEVM 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () =>
+                  handleCallContractClick(
+                    '2424',
+                    '0x211827624c627d228660A07e55ABCe931485dBAB',
+                  )
+                }
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'INJECTIVE inEVM 🔴 ERC20',
+            description: 'Danger ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () =>
+                  handleCallContractClick(
+                    '2424',
+                    '0x8401B4CA7D07063B76eb9Add964047690725C2fd',
+                  )
+                }
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'ETH Sepolia 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () => handleCallContractClick('11155111', '')}
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Kava 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () => handleCallContractClick('2222', '')}
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Celo 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () => handleCallContractClick('44787', '')}
+                disabled={!installedSnap}
+              />
+            ),
+          }}
+          disabled={!installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(installedSnap) &&
+            !shouldDisplayReconnectButton(installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Fhenix 🟢 ERC20',
+            description: 'Safe ERC20 Contract',
+            button: (
+              <SendHelloButton
+                onClick={async () => handleCallContractClick('42069', '')}
                 disabled={!installedSnap}
               />
             ),

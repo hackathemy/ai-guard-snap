@@ -1,21 +1,99 @@
-# integration
+# Plugins
 
-### Plugins
-
-- Scaffold ETH
+- WalletConnect [Reference](https://docs.walletconnect.com/api/sign/dapp-usage)
 
 ```
-scaffold에서 사용할 수 있는 코드
-```
+import SignClient from '@walletconnect/sign-client'
 
-- NEOPIN WalletConnect
+const signClient = await SignClient.init({
+  projectId: '<YOUR_PROJECT_ID>',
+  relayUrl: '<YOUR RELAY URL>',
+  metadata: {
+    name: 'Example Dapp',
+    description: 'Example Dapp',
+    url: '#',
+    icons: ['https://walletconnect.com/walletconnect-logo.png']
+  }
+})
 
-```
-scaffold에서 사용할 수 있는 코드
+const callWithAIGuard = async () => {
+    const params = {
+        chainId: "11155111",
+        data: {
+            method: 'personal_sign',
+            params: [
+            '0x7468697320697320612074657374206d65737361676520746f206265207369676e6564',
+            '0x1d85568eEAbad713fBB5293B45ea066e552A90De'
+            ]
+        },
+    };
+
+    const response = await fetch('https://aiguad.hackathemy.me/message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
+    const jsonRes = await response.json();
+
+    if (jsonRes.result.isSuccess && confirm(jsonRes.short)) {
+        callContract(params)
+    }
+}
+
+const callWalletConnect = async (params) => {
+    try {
+        const result = await signClient.request({
+        topic: session.topic,
+        chainId: 'eip155:1',
+        request: params
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
 ```
 
 - Wagmi
 
 ```
-scaffold에서 사용할 수 있는 코드
+import TOKEN_ABI from "@/abi/TOKEN.abi";
+import { useAccount, useWriteContract } from "wagmi";
+
+const contractAddress = "0x";
+const { writeContract, error } = useWriteContract();
+const callWithAIGuard = async () => {
+    const params = {
+        chainId: "2424",
+        data: {
+            abi: TOKEN_ABI,
+            address: contractAddress,
+            functionName: "transfer",
+            args: [...]
+        },
+    };
+
+    const response = await fetch('https://aiguad.hackathemy.me/message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
+    const jsonRes = await response.json();
+
+    if (jsonRes.result.isSuccess && confirm(jsonRes.short)) {
+        callContract(params)
+    }
+}
+
+const callContract = async (params) => {
+    try {
+        const result = await writeContract(params);
+        console.log(result);
+    } catch (e) {
+        console.log(e);
+    }
+}
 ```

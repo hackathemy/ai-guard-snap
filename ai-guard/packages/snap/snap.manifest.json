@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
+  "description": "AI GUARD for SECURE WALLET.",
   "proposedName": "💂 AI GUARD",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "eB9w6oROJCp6ZlnIb7zCcW/T3qCajc8r+khdMJwppOY=",
+    "shasum": "kbkURoyzYWM4TtL+bXr9cBy2UcmyxtQu4VNsLFKRl4o=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

@@ -27,7 +27,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   const data: any = request.params;
   let result = null;
   try {
-    const response = await fetch('http://localhost:3000/message', {
+    const response = await fetch('https://aiguad.hackathemy.me/message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,11 +48,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           content: panel([
             heading(`💂 AI GUARD`),
             text('Is contract secure ?'),
+            text(result.result.chain),
             address(data.data.params[0].to),
             divider(),
-            text(JSON.stringify(result.short)),
+            text(JSON.stringify(result.result.short)),
             divider(),
-            text(JSON.stringify(result.long)),
+            text(JSON.stringify(result.result.long)),
             text(
               'Continue Chat with AI GUARD [Detail](https://chat.openai.com/).',
             ),
